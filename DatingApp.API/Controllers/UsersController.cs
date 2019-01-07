@@ -5,6 +5,8 @@ using DatingApp.API.Data;
 using System.Threading.Tasks;
 using DatingApp.API.DTOS;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System;
 
 namespace DatingApp.API.Controllers
 {
@@ -45,8 +47,8 @@ namespace DatingApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto){
             
-            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).value)) {
-                return Unathorized();
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                return Unauthorized();
             }
 
             var userFromRepo = await _repo.GetUser(id);
